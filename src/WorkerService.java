@@ -2,31 +2,36 @@ import java.util.ArrayList;
 
 // Handle worker registration, approval, and login
 public class WorkerService {
-
     private ArrayList<Worker> pendingWorkers = new ArrayList<>();
     private ArrayList<Worker> activeWorkers = new ArrayList<>();
     private int nextWorkerID = 20;
+    private static final int MAX_PENDING = 5; // para sa maximum workers register to pending
 
-    // Register a new worker (pending approval)
+    //  para mo work ag maxpending
     public void registerWorker(String name, int age, String contact, String address) {
-        Worker w = new Worker(name, age, contact, address, nextWorkerID++);
-        pendingWorkers.add(w);
-        System.out.println("Account submitted for approval!");
+
+    if(pendingWorkers.size() >= MAX_PENDING) {
+        System.out.println("Pending workers list is FULL. Please wait for admin approval!");
+        return;
     }
 
-    // Approve a pending worker
-    public void approveWorker(int index, String password) {
-        if(index < 0 || index >= pendingWorkers.size()) {
-            System.out.println("Invalid index!");
-            return;
-        }
+    Worker w = new Worker(name, age, contact, address, nextWorkerID++);
+    pendingWorkers.add(w);
+    System.out.println("Account submitted for approval!");
+}
 
+
+    // Approve a pending worker (return true if approved successfully)
+    public boolean approveWorker(int index, String password) {
+        if(index < 0 || index >= pendingWorkers.size()) {
+            return false; // invalid index
+        }
         Worker w = pendingWorkers.get(index);
         w.setActive(true);
         w.setCredentials(String.valueOf(w.getWorkerID()), password);
         activeWorkers.add(w);
         pendingWorkers.remove(index);
-        System.out.println("Worker approved! ID: " + w.getWorkerID());
+        return true; // approved successfully
     }
 
     // Delete a pending worker
@@ -38,18 +43,19 @@ public class WorkerService {
         pendingWorkers.remove(index);
         System.out.println("Pending worker deleted!");
     }
-
-    // Display pending workers
-    public void displayPendingWorkers() {
-        if(pendingWorkers.isEmpty()) {
-            System.out.println("No pending workers.");
-            return;
-        }
-        for(int i = 0; i < pendingWorkers.size(); i++) {
-            Worker w = pendingWorkers.get(i);
-            System.out.println(i + ". " + w.getName() + " | Age: " + w.age + " | Contact: " + w.contact);
-        }
+    
+   // Pagpa Display sa pending or no pending
+   public void displayPendingWorkers() {
+    if(pendingWorkers.isEmpty()) {
+        System.out.println("No pending workers.");
+        return;
     }
+    // naka plus 1 nag pag display
+    for(int i = 0; i < pendingWorkers.size(); i++) {
+        System.out.print((i + 1) + ". ");
+        pendingWorkers.get(i).showInfo();
+    }
+}
 
     // Display active workers
     public void displayActiveWorkers() {
@@ -58,14 +64,15 @@ public class WorkerService {
             return;
         }
         for(Worker w : activeWorkers) {
-            System.out.println("WorkerID: " + w.getWorkerID() + " | Name: " + w.getName());
+            w.showInfo(); // POLYMORPHISM!
         }
     }
 
     // Login for worker
     public Worker loginWorker(String id, String password) {
         for(Worker w : activeWorkers) {
-            if(w.getUsername().equals(id) && w.getPassword().equals(password)) return w;
+            if(w.getUsername().equals(id) && w.getPassword().equals(password)) 
+                return w;
         }
         return null;
     }

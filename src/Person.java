@@ -1,14 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-/**
- *
- * @author Admin
- */
 // Parent class for Admin and Worker
-public class Person {
+public abstract class Person {
     protected String name;
     protected int age;
     protected String contact;
@@ -16,7 +7,7 @@ public class Person {
     protected String username;
     protected String password;
 
-    // Constructor
+    // Constructor template of base info
     public Person(String name, int age, String contact, String address) {
         this.name = name;
         this.age = age;
@@ -24,7 +15,7 @@ public class Person {
         this.address = address;
     }
 
-    // Set login credentials
+    // Set login credentials // Encapsulated method to store credentials.
     public void setCredentials(String username, String password) {
         this.username = username;
         this.password = password;
@@ -34,4 +25,7 @@ public class Person {
     public String getName() { return name; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
+
+    // ABSTRACT METHOD FOR POLYMORPHISM
+    public abstract void showInfo(); // override so admin and worker diply info diffntly
 }

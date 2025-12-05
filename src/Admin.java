@@ -1,15 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 
-/**
- *
- * @author Admin
- */
+
 // Admin class inherits Person
 public class Admin extends Person {
+
+    // admin gets name, age, contact, address, username, password from Person.
     public Admin(String name, int age, String contact, String address) {
-        super(name, age, contact, address);
+        super(name, age, contact, address); // call parent constructor
     }
+
+    @Override
+    
+    public void showInfo() {
+        System.out.println("[ADMIN] Name: " + name + 
+                           " | Age: " + age + 
+                           " | Contact: " + contact +
+                           " | Address: " + address);
+    }
+    
 }
+
