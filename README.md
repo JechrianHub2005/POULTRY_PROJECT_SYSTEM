@@ -52,7 +52,7 @@ Password: s
 ▶ How to Run the Program
 
 1. Clone the repository  
-git clone https://github.com/your-username/your-repo-name.git  
+git clone https://github.com/JechrianHub2005/POULTRY_PROJECT_SYSTEM.git
 
 2. Open the project in any Java IDE  
 - NetBeans  
